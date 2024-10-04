@@ -30,10 +30,10 @@ const geistMono = localFont({
 
 export default function Home() {
   // Store the state of the textfield
-  const [todoText, setTodoText] = useState("");
+  const [todoText, setTodoText] = useState(""); // String State variable
 
   // Store all the todos that exist
-  const [allTodos, setAllTodos] = useState([]);
+  const [allTodos, setAllTodos] = useState([]); // Array of Strings State Variable
 
   // Called whenever the textfield is changed
   const onChangeHandler = (event) => {
