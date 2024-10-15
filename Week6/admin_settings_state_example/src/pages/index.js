@@ -1,22 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
-import localFont from "next/font/local";
-import styles from "@/styles/Home.module.css";
 
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Container, Stack, TextField, Typography } from "@mui/material";
 
 import { useState } from "react";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import Settings from "@/components/Settings";
 
 const CORRECT_PASSWORD = "DMIT2008A03";
 
@@ -41,24 +29,36 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-        className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
-      >
-        <main className={styles.main}>
-          <TextField
-            label="admin password"
-            type="password"
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-            value={password}
-          />
-          <Button variant="contained" onClick={clickHandler}>
-            Submit
-          </Button>
-          {shouldShowSettings && (
-            <p>Replace me with the settings in the future</p>
-          )}
+      <div>
+        <main>
+          <Container>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                label="admin password"
+                type="password"
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+                value={password}
+              />
+              <Button variant="contained" onClick={clickHandler}>
+                Submit
+              </Button>
+            </Stack>
+            {shouldShowSettings && (
+              <Stack>
+                <Settings colorOptions={["red", "blue", "green"]} />
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShouldShowSettings(false);
+                  }}
+                >
+                  Hide Settings
+                </Button>
+              </Stack>
+            )}
+          </Container>
         </main>
       </div>
     </>
