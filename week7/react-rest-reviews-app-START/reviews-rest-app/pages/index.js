@@ -28,6 +28,8 @@ import Typography from "@mui/material/Typography";
 
 import AdaptationReviewCard from "../components/AdaptationReviewCard";
 
+import { getReviews, postReview } from "../utils/api/reviews";
+
 import { useState } from "react";
 
 export default function Home() {
@@ -43,42 +45,20 @@ export default function Home() {
   const loadAllCurrentReviews = () => {
     console.log("Loading current reviews...");
     // Get the reviews from the server
-    fetch("http://localhost:5000/reviews")
-      .then((response) => {
-        // Convert the response to json object
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        // Store the reviews in the state
-        setReviews(data);
-      });
+    getReviews().then((data) => {
+      console.log(data);
+      // Store the reviews in the state
+      setReviews(data);
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Make a post request with the user inputs
-    fetch("http://localhost:5000/reviews", {
-      // The method has to be a POST
-      method: "POST",
-      // The headers for the request
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // The body for the request, stringified so that the request can be sent
-      body: JSON.stringify({
-        title,
-        comment,
-        rating,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // Add the new review to our state
-        setReviews([data, ...reviews]);
-      });
+    postReview({ title, comment, rating }).then((data) => {
+      // Add the new review to our state
+      setReviews([data, ...reviews]);
+    });
   };
 
   return (
