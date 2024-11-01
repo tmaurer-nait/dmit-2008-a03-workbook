@@ -25,7 +25,7 @@ import Typography from "@mui/material/Typography";
 
 import AdaptationReviewCard from "../components/AdaptationReviewCard";
 
-import { getReviews, postReview } from "../utils/api/reviews.js";
+import { getReviews, postReview, deleteReview } from "../utils/api/reviews.js";
 
 export default function Home() {
   const [reviews, setReviews] = useState([]);
@@ -38,12 +38,14 @@ export default function Home() {
   }, []);
 
   const handleSubmit = (event) => {
+    console.log("here");
     event.preventDefault();
     postReview({
       title,
       comment: comments,
       rating,
     }).then((data) => {
+      console.log("here3");
       setReviews([data, ...reviews]);
     });
   };
@@ -54,10 +56,15 @@ export default function Home() {
     });
   };
 
-  const deleteReview = (reviewId) => {
-    console.log(`deleting in index ${reviewId}`);
-    // TODO: Delete on frontend
-    // TODO: Delete on backend
+  const deleteReviewFrontAndBack = (idToDelete) => {
+    // Delete on backend
+    deleteReview(idToDelete).then((_) => {
+      // Delete on frontend
+      let newReviews = reviews.filter((review) => {
+        return review.id !== idToDelete;
+      });
+      setReviews(newReviews);
+    });
   };
 
   return (
@@ -150,7 +157,7 @@ export default function Home() {
             return (
               <AdaptationReviewCard
                 id={adaptation.id}
-                onDeleteRequested={deleteReview}
+                onDeleteRequested={deleteReviewFrontAndBack}
                 key={index}
                 rating={adaptation.rating}
                 title={adaptation.title}
