@@ -9,10 +9,16 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function AdaptationReviewCard(props) {
+export default function AdaptationReviewCard({
+  id,
+  onDeleteRequested,
+  rating,
+  title,
+  comment,
+}) {
   const deleteClickHandler = (id) => {
     console.log(`deleting ${id}...`);
-    props.onDeleteRequested(id);
+    onDeleteRequested(id);
   };
 
   return (
@@ -20,18 +26,18 @@ export default function AdaptationReviewCard(props) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "blue" }} aria-label="recipe">
-            {props.rating}
+            {rating}
           </Avatar>
         }
         title={
           <Typography variant="body2" color="text.secondary">
-            {props.title}
+            {title}
           </Typography>
         }
         action={
           <IconButton
             onClick={() => {
-              deleteClickHandler(props.id);
+              deleteClickHandler(id);
             }}
           >
             <DeleteIcon />
@@ -40,7 +46,7 @@ export default function AdaptationReviewCard(props) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props.comment}
+          {comment}
         </Typography>
       </CardContent>
     </Card>
